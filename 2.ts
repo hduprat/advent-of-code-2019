@@ -1,4 +1,5 @@
-import { lineBreak, title, result, text } from "./utils/console";
+import { lineBreak, title, result, text, error } from "./utils/console";
+import { colors } from "./utils/consoleColors";
 import { getLinesOfFile } from "./utils/getLinesOfFile";
 import { executeProgram, getProgram } from "./utils/intcode";
 
@@ -11,23 +12,40 @@ const playScenario = async (path: string) => {
     "green"
   );
 
+  const testProgram = [...program];
+
   if (!path.includes("example")) {
-    program[1] = 12;
-    program[2] = 2;
+    testProgram[1] = 12;
+    testProgram[2] = 2;
   }
 
-  executeProgram(program);
-  // text(program);
+  executeProgram(testProgram);
+  // text(testProgram);
 
-  result("result:", program[0]);
+  result("result:", testProgram[0]);
   lineBreak();
+  if (path.includes("example")) return;
 
-  // title(`Second exercise: ZZZZ.`, "green");
+  title(
+    `Second exercise: Find the noun and verb that makes the program output ${colors.magenta}19690720${colors.green}.`,
+    "green"
+  );
 
-  // // code here
+  for (let noun = 0; noun < 100; noun++) {
+    for (let verb = 0; verb < 100; verb++) {
+      const nounVerbProgram = [...program];
+      nounVerbProgram[1] = noun;
+      nounVerbProgram[2] = verb;
+      executeProgram(nounVerbProgram);
+      if (nounVerbProgram[0] === 19690720) {
+        result("result:", 100 * noun + verb);
+        lineBreak();
+        return;
+      }
+    }
+  }
 
-  // result("result:", 0);
-  // lineBreak();
+  error("No noun or verb complies :(");
 };
 
 async function main() {
