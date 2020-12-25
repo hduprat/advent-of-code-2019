@@ -1,4 +1,8 @@
-import { getIntersectionManhattanDistances, setupWires } from "./3/wires";
+import {
+  getIntersectionManhattanDistances,
+  getIntersectionSignalDelays,
+  setupWires,
+} from "./3/wires";
 import { lineBreak, title, result, text } from "./utils/console";
 import { getLinesOfFile } from "./utils/getLinesOfFile";
 
@@ -19,12 +23,15 @@ const playScenario = async (path: string) => {
   result("result:", Math.min(...distances));
   lineBreak();
 
-  // title(`Second exercise: ZZZZ.`, "green");
+  title(
+    `Second exercise: get the lowest signal delays of all intersections.`,
+    "green"
+  );
 
-  // // code here
+  const delays = getIntersectionSignalDelays(wireGrid);
 
-  // result("result:", 0);
-  // lineBreak();
+  result("result:", Math.min(...delays));
+  lineBreak();
 };
 
 async function main() {

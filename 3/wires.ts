@@ -1,3 +1,4 @@
+import { sum } from "../utils/array";
 import { coords2str, manhattanDistance, str2coords } from "../utils/coords";
 export type WireGrid = Map<string, number[]>;
 
@@ -15,6 +16,7 @@ export const setupWires = (wires: string[], grid: WireGrid) => {
   wires.forEach((wire, index) => {
     const wireSegments = wire.split(",");
     let [x, y] = [0, 0];
+    let steps = 1;
     wireSegments.forEach((segment) => {
       const direction = segment[0];
       const distance = parseInt(segment.substring(1));
@@ -28,8 +30,9 @@ export const setupWires = (wires: string[], grid: WireGrid) => {
         if (!grid.has(coords)) {
           grid.set(coords, new Array(wires.length).fill(0));
         }
-        grid.get(coords)[index] = 1;
+        if (grid.get(coords)[index] === 0) grid.get(coords)[index] = steps;
         [x, y] = str2coords(coords);
+        steps++;
       }
     });
   });
@@ -44,6 +47,16 @@ export const getIntersectionManhattanDistances = (grid: WireGrid): number[] => {
   for (const [coords, intersections] of grid) {
     if (isIntersectionBetweenWires(intersections))
       distances.push(manhattanDistance(coords));
+  }
+
+  return distances;
+};
+
+export const getIntersectionSignalDelays = (grid: WireGrid): number[] => {
+  const distances: number[] = [];
+  for (const [, intersections] of grid) {
+    if (isIntersectionBetweenWires(intersections))
+      distances.push(sum(intersections));
   }
 
   return distances;
