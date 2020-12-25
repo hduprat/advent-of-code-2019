@@ -1,0 +1,13 @@
+{
+  "name": "advent-of-code-2019",
+  "version": "1.0.0",
+  "main": "template.ts",
+  "repository": "git@github.com:hduprat/advent-of-code-2019.git",
+  "author": "hduprat <hugod@bam.tech>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.14.16",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
