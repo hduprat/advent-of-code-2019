@@ -8,6 +8,10 @@ const NUMBER_OF_PARAMS: { [opcode: number]: number } = {
   2: 3,
   3: 1,
   4: 1,
+  5: 2,
+  6: 2,
+  7: 3,
+  8: 3,
   99: 0,
 };
 
@@ -73,6 +77,62 @@ export function* executeProgram(
         if (verbose) text("Outputting", display(0));
         yield get(0);
         break;
+      case 5:
+        if (get(0) !== 0) {
+          if (verbose) {
+            text(display(0), "is non-zero; jumping to", display(1));
+            lineBreak();
+          }
+          i = get(1);
+          continue;
+        }
+        if (verbose) text(display(0), "is zero; doing nothing");
+        break;
+      case 6:
+        if (get(0) === 0) {
+          if (verbose) {
+            text(display(0), "is zero; jumping to", display(1));
+            lineBreak();
+          }
+          i = get(1);
+          continue;
+        }
+        if (verbose) text(display(0), "is non-zero; doing nothing");
+        break;
+      case 7: {
+        const isLess = get(0) < get(1);
+        const value = isLess ? 1 : 0;
+        if (verbose)
+          text(
+            display(0),
+            "is",
+            isLess ? "" : "NOT",
+            "less than",
+            display(1) + "; setting ",
+            value,
+            " to address",
+            parameters[2]
+          );
+        program[parameters[2]] = value;
+        break;
+      }
+      case 8: {
+        const isEqual = get(0) === get(1);
+        const value = isEqual ? 1 : 0;
+        if (verbose)
+          text(
+            display(0),
+            "is",
+            isEqual ? "" : "NOT",
+            "equal to",
+            display(1) + "; setting ",
+            value,
+            " to address",
+            parameters[2]
+          );
+        program[parameters[2]] = value;
+        break;
+      }
       case 99:
         if (verbose) text("End of program");
         return;

@@ -6,7 +6,7 @@ const playScenario = async (path: string) => {
   const lines = await getLinesOfFile(path);
 
   title(
-    `First exercise: Upgrade the Intcode computer and execute the programs.`,
+    `First exercise: Upgrade the Intcode computer and execute the diagnostic program for the air conditioner unit.`,
     "green"
   );
   try {
@@ -18,12 +18,18 @@ const playScenario = async (path: string) => {
 
   lineBreak();
 
-  // title(`Second exercise: ZZZZ.`, "green");
+  title(
+    `Second exercise: Upgrade the Intcode computer and execute the diagnostic program for the thermal radiator controller.`,
+    "green"
+  );
 
-  // // code here
-
-  // result("result:", 0);
-  // lineBreak();
+  try {
+    const program1 = getProgram(lines[0]);
+    runProgram(program1, 5);
+  } catch (e) {
+    error(e);
+  }
+  lineBreak();
 };
 
 async function main() {
