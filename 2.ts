@@ -1,7 +1,7 @@
 import { lineBreak, title, result, text, error } from "./utils/console";
 import { colors } from "./utils/consoleColors";
 import { getLinesOfFile } from "./utils/getLinesOfFile";
-import { executeProgram, getProgram } from "./utils/intcode";
+import { executeProgram, getProgram, runProgram } from "./utils/intcode";
 
 const playScenario = async (path: string) => {
   const lines = await getLinesOfFile(path);
@@ -19,7 +19,7 @@ const playScenario = async (path: string) => {
     testProgram[2] = 2;
   }
 
-  executeProgram(testProgram);
+  runProgram(testProgram);
   // text(testProgram);
 
   result("result:", testProgram[0]);
@@ -36,7 +36,7 @@ const playScenario = async (path: string) => {
       const nounVerbProgram = [...program];
       nounVerbProgram[1] = noun;
       nounVerbProgram[2] = verb;
-      executeProgram(nounVerbProgram);
+      runProgram(nounVerbProgram);
       if (nounVerbProgram[0] === 19690720) {
         result("result:", 100 * noun + verb);
         lineBreak();
